@@ -75,26 +75,25 @@ void loop() {
   int limitval3 = digitalRead(limitSwitch3);
   // Makes 200 pulses for making one full cycle rotation
   if(digitalRead(limitSwitch3) != 1){
-    digitalWrite(DirZ,HIGH); // Enables the motor to move in a particular direction
+    digitalWrite(Dir3,HIGH); // Enables the motor to move in a particular direction
   // Makes 200 pulses for making one full cycle rotation
     for(int x = 0; x < 200; x++) {
-    digitalWrite(StepZ,HIGH); 
+    digitalWrite(Step3,HIGH); 
     delayMicroseconds(700);    // by changing this time delay between the steps we can change the rotation speed
-    digitalWrite(StepZ,LOW); 
+    digitalWrite(Step3,LOW); 
     delayMicroseconds(700); } 
   }
   else if(digitalRead(limitSwitch3) ==1){
     Serial.print("Going Down  :  Switch is open =  ");
     Serial.println(limitval3);
-    digitalWrite(DirZ,LOW); //Changes the rotations direction
+    digitalWrite(Dir3,LOW); //Changes the rotations direction
   //Makes 400 pulses for making two full cycle rotation
     for(int x = 0; x < 5000; x++) {
-    digitalWrite(StepZ,HIGH);
+    digitalWrite(Step3,HIGH);
     delayMicroseconds(700);
-    digitalWrite(StepZ,LOW);
+    digitalWrite(Step3,LOW);
     delayMicroseconds(700);
   }
   delay(1000);
   }
-}
 }

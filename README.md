@@ -1,2 +1,2 @@
 # scara
-capstone
+capstome

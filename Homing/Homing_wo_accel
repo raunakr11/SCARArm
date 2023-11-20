@@ -1,0 +1,185 @@
+// AccelStepper stepper1(1, 2, 5); // (Type:driver, STEP, DIR)
+// AccelStepper stepper2(1, 3, 6);
+// AccelStepper stepper3(1, 4, 7);
+// AccelStepper stepper4(1, 12, 13);
+
+// defines pins
+
+//J3
+#define stepPinJ3 2
+#define dirPinJ3 5
+#define limitSwitchJ3 11
+
+//J1
+#define stepPinJ1 3
+#define dirPinJ1 6
+#define limitSwitchJ1 10
+ 
+//J2
+#define stepPinJ2 4
+#define dirPinJ2 7
+#define limitSwitchJ2 9
+
+//J4 end effector
+#define stepPinJ4 12
+#define dirPinJ4 13
+#define limitSwitchJ4 A3
+ 
+ 
+
+void J3()
+{
+  int limitval = digitalRead(limitSwitchJ3);
+
+   // Makes 200 pulses for making one full cycle rotation
+  while(digitalRead(limitSwitchJ3) != 1){
+    Serial.print("Going up  :  Switch is closed =   ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ3,HIGH); // Enables the motor to move in a particular direction
+  // Makes 200 pulses for making one full cycle rotation
+    for(int x = 0; x < 200; x++) {
+    digitalWrite(stepPinJ3,HIGH); 
+    delayMicroseconds(300);    // by changing this time delay between the steps we can change the rotation speed
+    digitalWrite(stepPinJ3,LOW); 
+    delayMicroseconds(300); } 
+  }
+    Serial.print("Going Down  :  Switch is open =  ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ3,LOW); //Changes the rotations direction
+  // Makes 400 pulses for making two full cycle rotation
+    for(int x = 0; x < 14600/2; x++) {
+    digitalWrite(stepPinJ3,HIGH);
+    delayMicroseconds(700);
+    digitalWrite(stepPinJ3,LOW);
+    delayMicroseconds(700);
+  }
+  delay(1000);
+}
+
+
+void J1()
+{
+  int limitval = digitalRead(limitSwitchJ1);
+
+   // Makes 200 pulses for making one full cycle rotation
+  while(digitalRead(limitSwitchJ1) != 1){
+    Serial.print("Going up  :  Switch is closed =   ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ1,HIGH); // Enables the motor to move in a particular direction
+  // Makes 200 pulses for making one full cycle rotation
+    for(int x = 0; x < 200; x++) {
+    digitalWrite(stepPinJ1,HIGH); 
+    delayMicroseconds(800);    // by changing this time delay between the steps we can change the rotation speed
+    digitalWrite(stepPinJ1,LOW); 
+    delayMicroseconds(800); } 
+  }
+    Serial.print("Going Down  :  Switch is open =  ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ1,LOW); //Changes the rotations direction
+  // Makes 400 pulses for making two full cycle rotation
+    for(int x = 0; x < 16000/2; x++) {
+    digitalWrite(stepPinJ1,HIGH);
+    delayMicroseconds(700);
+    digitalWrite(stepPinJ1,LOW);
+    delayMicroseconds(700);
+  }
+  delay(1000);
+}
+void J2()
+{
+  int limitval = digitalRead(limitSwitchJ2);
+
+   // Makes 200 pulses for making one full cycle rotation
+  while(digitalRead(limitSwitchJ2) != 1){
+    Serial.print("Going up  :  Switch is closed =   ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ2,HIGH); // Enables the motor to move in a particular direction
+  // Makes 200 pulses for making one full cycle rotation
+    for(int x = 0; x < 200; x++) {
+    digitalWrite(stepPinJ2,HIGH); 
+    delayMicroseconds(500);    // by changing this time delay between the steps we can change the rotation speed
+    digitalWrite(stepPinJ2,LOW); 
+    delayMicroseconds(500); } 
+  }
+  // else if(digitalRead(limitSwitchJ3) ==1){
+    Serial.print("Going Down  :  Switch is open =  ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ2,LOW); //Changes the rotations direction
+  // Makes 400 pulses for making two full cycle rotation
+    for(int x = 0; x < 11600/2; x++) {
+    digitalWrite(stepPinJ2,HIGH);
+    delayMicroseconds(700);
+    digitalWrite(stepPinJ2,LOW);
+    delayMicroseconds(700);
+  }
+  delay(1000);
+}
+
+void J4()
+{
+  int limitval = digitalRead(limitSwitchJ4);
+
+   // Makes 200 pulses for making one full cycle rotation
+  while(digitalRead(limitSwitchJ4) != 1){
+    Serial.print("Going up  :  Switch is closed =   ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ4,LOW); // Enables the motor to move in a particular direction
+  // Makes 200 pulses for making one full cycle rotation
+    for(int x = 0; x < 200; x++) {
+    digitalWrite(stepPinJ4,HIGH); 
+    delayMicroseconds(500);    // by changing this time delay between the steps we can change the rotation speed
+    digitalWrite(stepPinJ4,LOW); 
+    delayMicroseconds(500); } 
+  }
+  // else if(digitalRead(limitSwitchJ3) ==1){
+    Serial.print("Going Down  :  Switch is open =  ");
+    Serial.println(limitval);
+    digitalWrite(dirPinJ4,HIGH); //Changes the rotations direction
+  // Makes 400 pulses for making two full cycle rotation
+    for(int x = 0; x < 3000/2; x++) {
+    digitalWrite(stepPinJ4,HIGH);
+    delayMicroseconds(700);
+    digitalWrite(stepPinJ4,LOW);
+    delayMicroseconds(700);
+  }
+  delay(1000);
+}
+
+
+
+
+//Z AXIS 
+void setup() {
+  // Sets the two pins as Outputs
+  pinMode(stepPinJ3,OUTPUT); 
+  pinMode(dirPinJ3,OUTPUT);
+  pinMode(limitSwitchJ3, INPUT_PULLUP);
+  Serial.begin(9600);
+
+  pinMode(stepPinJ1,OUTPUT); 
+  pinMode(dirPinJ1,OUTPUT);
+  pinMode(limitSwitchJ1, INPUT_PULLUP);
+  Serial.begin(9600);
+
+
+  pinMode(stepPinJ2,OUTPUT); 
+  pinMode(dirPinJ2,OUTPUT);
+  pinMode(limitSwitchJ2, INPUT_PULLUP);
+  Serial.begin(9600);
+
+
+  pinMode(stepPinJ4,OUTPUT); 
+  pinMode(dirPinJ4,OUTPUT);
+  pinMode(limitSwitchJ4, INPUT_PULLUP);
+  Serial.begin(9600);
+
+  J3();
+  J1();
+  J2();
+  J4();
+}
+
+
+void loop() {
+
+}

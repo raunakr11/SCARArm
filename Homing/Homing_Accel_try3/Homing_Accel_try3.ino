@@ -40,7 +40,7 @@ void homeJ3()
     // Serial.println(stepper.distanceToGo());
     stepperJ3.runToPosition();
   }
-  stepperJ3.
+  stepperJ3.runToPosition();
 }
 
 

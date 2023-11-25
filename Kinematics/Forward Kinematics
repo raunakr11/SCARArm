@@ -236,7 +236,7 @@ void loop() {
           Serial.print("stepperJ3 steps taken :");
           Serial.println(stepperJ3Position);
           Serial.print("Gripper position :");
-          Serial.println(serAngle);
+          Serial.println(serAngle);//end effector
 
           stepperJ1.moveTo(stepperJ1Position);
           stepperJ2.moveTo(stepperJ2Position);

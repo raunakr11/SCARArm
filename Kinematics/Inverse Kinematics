@@ -134,7 +134,8 @@ void inverseKinematics(float x, float y) {
     theta2 = (-1) * theta2;
   }
   
-  theta1 = atan(x / y) - atan((L2 * sin(theta2)) / (L1 + L2 * cos(theta2)));
+  // theta1 = atan(x / y) - atan((L2 * sin(theta2)) / (L1 + L2 * cos(theta2)));
+  theta1 = atan(y / x) - atan((L2 * sin(theta2)) / (L1 + L2 * cos(theta2)));
   theta2 = (-1) * theta2 * 180 / PI;
   theta1 = theta1 * 180 / PI;
 
@@ -142,18 +143,18 @@ void inverseKinematics(float x, float y) {
   if (x >= 0 && y >= 0) {       // 1st quadrant
     theta1 = 90 - theta1;
   }
-  if (x < 0 && y > 0) {       // 2nd quadrant
+  else if (x < 0 && y > 0) {       // 2nd quadrant
     theta1 = 90 - theta1;
   }
-  if (x < 0 && y < 0) {       // 3d quadrant
+  else if (x < 0 && y < 0) {       // 3d quadrant
     theta1 = 270 - theta1;
     phi = 270 - theta1 - theta2;
     phi = (-1) * phi;
   }
-  if (x > 0 && y < 0) {       // 4th quadrant
+  else if (x > 0 && y < 0) {       // 4th quadrant
     theta1 = -90 - theta1;
   }
-  if (x < 0 && y == 0) {
+  else if (x < 0 && y == 0) {
     theta1 = 270 + theta1;
   }
   

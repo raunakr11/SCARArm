@@ -8,238 +8,236 @@
 #define LIMIT_SWITCH_PIN4 A3
 
 // Define the stepper motors and the pins the will use
-AccelStepper stepperJ1(1, 3, 6);  // (Type:driver, STEP, DIR)
+AccelStepper stepperJ1(1, 3, 6); // (Type:driver, STEP, DIR)
 AccelStepper stepperJ2(1, 4, 7);
 AccelStepper stepperJ3(1, 2, 5);
 AccelStepper stepperJ4(1, 12, 13);
 
 Servo gripperServo;
 
-double x = 10.0;
-double y = 10.0;
-double L1 = 228;    // L1 = 228mm
-double L2 = 136.5;  // L2 = 136.5mm
+// double x = 10.0;
+// double y = 10.0;
+double L1 = 228; // L1 = 228mm
+double L2 = 136.5; // L2 = 136.5mm
 double theta1, theta2, phi, z;
 
-int stepperJ1Position, stepperJ2Position, stepperJ3Position, stepperJ4Position;
+int stepperJ1Position, stepperJ2Position, stepperJ3Position, stepper4Position;
 
 const float theta1AngleToSteps = 44.444444;
 const float theta2AngleToSteps = 35.555555;
 const float phiAngleToSteps = 10;
 const float zDistanceToSteps = 100;
 
-void homing() {
+void homing()
+{
   homeJ4();
   homeJ2();
   homeJ3();
   homeJ1();
 }
 
-void homeJ3() {
+void homeJ3()
+{
   pinMode(LIMIT_SWITCH_PIN3, INPUT_PULLUP);
 
   stepperJ3.setMaxSpeed(5000);
   stepperJ3.setAcceleration(1000);
   stepperJ3.setSpeed(1500);
 
-  while (digitalRead(LIMIT_SWITCH_PIN3) == LOW) {
+  while(digitalRead(LIMIT_SWITCH_PIN3) == LOW) {
     stepperJ3.runSpeed();
-    if (digitalRead(LIMIT_SWITCH_PIN3) == HIGH) break;
+    if(digitalRead(LIMIT_SWITCH_PIN3) == HIGH) break;
   }
 
-  stepperJ3.setSpeed(-1000);
+  stepperJ3.setSpeed(-3000);
   stepperJ3.move(-8000);
 
-  while (stepperJ3.distanceToGo() != 0) {
+  while (stepperJ3.distanceToGo() != 0) { 
     stepperJ3.runToPosition();
   }
   stepperJ3.runToPosition();
   stepperJ3.setCurrentPosition(0);
 }
 
-
-void homeJ1() {
+void homeJ1()
+{
   pinMode(LIMIT_SWITCH_PIN1, INPUT_PULLUP);
 
   stepperJ1.setMaxSpeed(5000);
   stepperJ1.setAcceleration(2000);
   stepperJ1.setSpeed(1500);
 
-  while (digitalRead(LIMIT_SWITCH_PIN1) == LOW) {
+  while(digitalRead(LIMIT_SWITCH_PIN1) == LOW) {
     stepperJ1.runSpeed();
-    if (digitalRead(LIMIT_SWITCH_PIN1) == HIGH) break;
+    if(digitalRead(LIMIT_SWITCH_PIN1) == HIGH) break;
   }
 
   stepperJ1.setSpeed(-3000);
   stepperJ1.move(-8000);
 
   while (stepperJ1.distanceToGo() != 0) {
+    // Serial.println(stepper.distanceToGo());
     stepperJ1.runToPosition();
     stepperJ1.setCurrentPosition(0);
   }
 }
-void homeJ2() {
+
+void homeJ2()
+{
   pinMode(LIMIT_SWITCH_PIN2, INPUT_PULLUP);
 
   stepperJ2.setMaxSpeed(5000);
   stepperJ2.setAcceleration(2000);
   stepperJ2.setSpeed(1500);
 
-  while (digitalRead(LIMIT_SWITCH_PIN2) == LOW) {
+  while(digitalRead(LIMIT_SWITCH_PIN2) == LOW) {
     stepperJ2.runSpeed();
-    if (digitalRead(LIMIT_SWITCH_PIN2) == HIGH) break;
+    if(digitalRead(LIMIT_SWITCH_PIN2) == HIGH) break;
   }
 
   stepperJ2.setSpeed(-3000);
   stepperJ2.move(-5500);
 
   while (stepperJ2.distanceToGo() != 0) {
+    // Serial.println(stepper.distanceToGo());
     stepperJ2.runToPosition();
     stepperJ2.setCurrentPosition(0);
   }
-
-  // stepperJ2.setSpeed(-3000);
-  // stepperJ2.move(-5500);
 }
-void homeJ4() {
+
+void homeJ4()
+{
   pinMode(LIMIT_SWITCH_PIN4, INPUT_PULLUP);
 
   stepperJ4.setMaxSpeed(5000);
   stepperJ4.setAcceleration(1000);
   stepperJ4.setSpeed(1500);
 
-  while (digitalRead(LIMIT_SWITCH_PIN4) == LOW) {
+  while(digitalRead(LIMIT_SWITCH_PIN4) == LOW) {
     stepperJ4.runSpeed();
-    if (digitalRead(LIMIT_SWITCH_PIN4) == HIGH) break;
+    if(digitalRead(LIMIT_SWITCH_PIN4) == HIGH) break;
   }
 
   stepperJ4.setSpeed(-3000);
   stepperJ4.move(-1500);
 
   while (stepperJ4.distanceToGo() != 0) {
+    // Serial.println(stepper.distanceToGo());
     stepperJ4.runToPosition();
     stepperJ4.setCurrentPosition(0);
   }
 }
-//INVERSE KINEMATICS
-void inverseKinematics() {
+// INVERSE KINEMATICS
+void inverseKinematics(float x, float y) {
   theta2 = acos((sq(x) + sq(y) - sq(L1) - sq(L2)) / (2 * L1 * L2));
-  if (x < 0 & y < 0) {
+  if (x < 0 && y < 0) {
     theta2 = (-1) * theta2;
   }
-
+  
   theta1 = atan(x / y) - atan((L2 * sin(theta2)) / (L1 + L2 * cos(theta2)));
-
   theta2 = (-1) * theta2 * 180 / PI;
   theta1 = theta1 * 180 / PI;
 
-  // Angles adjustment depending in which quadrant the final tool coordinate x,y is
-  if (x >= 0 & y >= 0) {  // 1st quadrant
+ // Angles adjustment depending in which quadrant the final tool coordinate x,y is
+  if (x >= 0 && y >= 0) {       // 1st quadrant
     theta1 = 90 - theta1;
   }
-  if (x< 0 & y > 0) {  // 2nd quadrant
+  if (x < 0 && y > 0) {       // 2nd quadrant
     theta1 = 90 - theta1;
   }
-  if (x < 0 & y < 0) {  // 3d quadrant
+  if (x < 0 && y < 0) {       // 3d quadrant
     theta1 = 270 - theta1;
     phi = 270 - theta1 - theta2;
     phi = (-1) * phi;
   }
-  if (x > 0 & y < 0) {  // 4th quadrant
+  if (x > 0 && y < 0) {       // 4th quadrant
     theta1 = -90 - theta1;
   }
-  if (x < 0 & y == 0) {
+  if (x < 0 && y == 0) {
     theta1 = 270 + theta1;
   }
-
+  
   // Calculate "phi" angle so gripper is parallel to the X axis
   phi = 90 + theta1 + theta2;
   phi = (-1) * phi;
 
   // Angle adjustment depending in which quadrant the final tool coordinate x,y is
-  if (x < 0 & y < 0) {  // 3d quadrant
+  if (x < 0 && y < 0) {       // 3d quadrant
     phi = 270 - theta1 - theta2;
   }
   if (abs(phi) > 165) {
     phi = 180 + phi;
   }
 
-  theta1 = round(theta1);
-  theta2 = round(theta2);
-  phi = round(phi);
-}
-void setup() {
-  Serial.begin(9600);
-  homing();
-  gripperServo.attach(A0, 600, 2500);
+  theta1=round(theta1);
+  theta2=round(theta2);
+  phi=round(phi);//The third angle which I call “phi” is be used for setting the orientation of the gripper.
+
 }
 
+void setup() {
+  Serial.begin(9600);
+  gripperServo.attach(A0, 600, 2500);
+  gripperServo.write(0); 
+  homing();
+}
+// X :266
+// Y :232
+// Z :30.00
 void loop() {
   // Wait for input from the user
   if (Serial.available() > 0) {
-    // Read the input from the user
+    //Read the input from the user
     String input = Serial.readStringUntil('\n');
 
     // Parse the input into x, y, and z coordinates
     int comma1 = input.indexOf(",");
-    int comma2 = input.indexOf(",", comma1 + 1);
-    int comma3 = input.indexOf(",", comma2 + 1);
-    double x = input.substring(0, comma1).toFloat();
-    double y = input.substring(comma1 + 1, comma2).toFloat();
-    double Z = input.substring(comma2 + 1, comma3).toFloat();
-    double serAngle = input.substring(comma3 + 1).toFloat();
-    // double serAngle = input.substring(comma4 + 1).toFloat();
+    int comma2 = input.indexOf(",", comma1+1);
+    int comma3 = input.indexOf(",",comma2+1);
+    int comma4 = input.indexOf(",",comma3+1);
+    float x = input.substring(0, comma1).toFloat();//Reads the first value entered in the string WHICH IS THETA 1
+    float y = input.substring(comma1+1, comma2).toFloat();//Reads the second value entered after the first comma WHICH IS THETA2
+    float Z = input.substring(comma2+1).toFloat();//Reads next value after the 2nd comma WHICH IS Z AXIS
+    int serAngle = input.substring(comma3+1).toFloat();//Reads next value after the 3rd comma 
 
-    //Calculate the inverse kinamatics
-    inverseKinematics();
-    stepperJ1.setSpeed(4000);
-    stepperJ2.setSpeed(4000);
-    stepperJ3.setSpeed(4000);
-    stepperJ4.setSpeed(4000);
-    stepperJ1.setAcceleration(2000);
-    stepperJ2.setAcceleration(2000);
-    stepperJ3.setAcceleration(2000);
-    stepperJ4.setAcceleration(2000);
+    //Calculate the inverse kinematics
+    inverseKinematics(x,y);
+          stepperJ1.setSpeed(4000);
+          stepperJ2.setSpeed(4000);
+          stepperJ3.setSpeed(4000);
+          stepperJ1.setAcceleration(2000);
+          stepperJ2.setAcceleration(2000);
+          stepperJ3.setAcceleration(2000);
 
-    //writing position to the steppers
-    stepperJ1Position = theta1 * theta1AngleToSteps;
-    stepperJ2Position = theta2 * theta2AngleToSteps;
-    stepperJ4Position = phi * phiAngleToSteps;
-    stepperJ3Position = Z * zDistanceToSteps;
+          //writing position to the steppers
+          stepperJ1Position = theta1 * theta1AngleToSteps;
+          stepperJ2Position = theta2 * theta2AngleToSteps;
+          stepperJ3Position = Z * zDistanceToSteps;
 
-    Serial.print("stepperJ1 angle :");
-    Serial.println(stepperJ1Position);
-    Serial.print("stepperJ2 angle :");
-    Serial.println(stepperJ2Position);
-    // Serial.print("phi angle :");
-    // Serial.println(phi);
-    Serial.print("Z position :");
-    Serial.println(Z);
+          Serial.print("theta1 :");
+          Serial.println(theta1);
+          Serial.print("theta2 :");
+          Serial.println(theta2);
+          Serial.print("Z :");
+          Serial.println(Z);
+          Serial.print("Gripper Orientation :");
+          Serial.println(phi);
+
+          // Serial.print("Z :");
+          // Serial.println(Z);
+
+          stepperJ1.moveTo(stepperJ1Position);
+          stepperJ2.moveTo(stepperJ2Position);
+          stepperJ3.moveTo(stepperJ3Position);
 
 
-
-    stepperJ1.moveTo(stepperJ1Position);
-    stepperJ2.moveTo(stepperJ2Position);
-    stepperJ3.moveTo(stepperJ3Position);
-    //stepperJ4.moveTo(stepperJ4Position); STILL NOT SURE ABOUT THIS ONE
-
-    if (serAngle == 0) {
-      // in steps of 1 degree
-      gripperServo.write(0);  // tell servo to go to position in variable 'pos'
-      delay(15);
-      Serial.println("End Effector Closed");
-
-    } else if (serAngle == 1) {
-      gripperServo.write(90);  // tell servo to go to position in variable 'pos'
-      delay(15);
-      Serial.println("End Effector Open");
-    }
-    while (stepperJ1.currentPosition() != stepperJ1Position || stepperJ2.currentPosition() != stepperJ2Position || stepperJ3.currentPosition() != stepperJ3Position) {
-      stepperJ1.run();
-      stepperJ2.run();
-      stepperJ3.run();
-    }
-    delay(100);
-    Serial.println("-------------------------------------------------------------");
+while (stepperJ1.currentPosition() != stepperJ1Position || stepperJ2.currentPosition() != stepperJ2Position || stepperJ3.currentPosition() != stepperJ3Position) {
+    stepperJ1.run();
+    stepperJ2.run();
+    stepperJ3.run();
   }
-}
+  delay(100);
+  gripperServo.write(serAngle);
+  delay(300);
+    }
+  }

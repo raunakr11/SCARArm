@@ -1,1 +1,57 @@
+#include <Servo.h>
 
+Servo myServo;
+
+void setup() {
+  Serial.begin(9600);
+  myServo.attach(9);  // Attach the servo to pin 9
+}
+
+void loop() {
+  // Wait for user input from the Serial Monitor
+  while (!Serial.available()) {
+    delay(100);
+  }
+
+  // Read the input string from Serial Monitor
+  String userInput = Serial.readStringUntil('\n');
+
+  // Check if the input string is not empty
+  if (userInput.length() > 0) {
+    // Get the last character of the input string
+    char lastChar = userInput[userInput.length() - 1];
+
+    // Set servo angle based on the last character
+    int servoAngle = 0;  // Default angle if lastChar is not A, B, or C
+
+    if (lastChar == 'A') {
+      servoAngle = 30;
+    } else if (lastChar == 'B') {
+      servoAngle = 60;
+    } else if (lastChar == 'C') {
+      servoAngle = 90;
+    } else if (lastChar == 'D') {
+      servoAngle = 120;
+    } else if (lastChar == 'E') {
+      servoAngle = 150;
+    } else if (lastChar == 'F') {
+      servoAngle = 180;
+    }
+    // Move the servo to the specified angle
+    myServo.write(servoAngle);
+
+    // Display the current angle on the Serial Monitor
+    Serial.print("Moving to ");
+    Serial.println(lastChar);
+    delay(2000);
+    Serial.println("Going to home");
+    delay(2000);
+    myServo.write(0);
+  } else {
+    // Display an error message for empty input
+    Serial.println("Invalid input. Please enter a valid string.");
+  }
+
+  // Wait for a moment before reading the next input
+  delay(500);
+}

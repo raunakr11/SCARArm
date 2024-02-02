@@ -1,7 +1,6 @@
 # SCARA For Test Tube Allotment
-capstome
-
-ABSTRACT
+  ![side view](https://github.com/raunakr11/SCARArm/assets/78155138/54ec36e9-693a-4b86-90a6-69ae771c7b29)
+  ![w](https://github.com/raunakr11/SCARArm/assets/78155138/7913a1cc-63a7-4a53-a28a-32cfec6ab41a)
 
 The creative application of a SCARA (Selective Compliance Assembly Robot Arm) robot platform for pick-and-place tasks is presented in this article. The SCARA robot, which is well- known for its remarkable accuracy and adaptability, shows promise as an automated pick-and- place process solution that could improve productivity, accuracy, and overall quality of automation.
 

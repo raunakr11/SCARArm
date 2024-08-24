@@ -1,3 +1,4 @@
+//This code will open and close the end effector depending on if we enter 0 or 1
 #include <Servo.h>
 #define numOfValsRec 1
 #define digitsPerValRec 1

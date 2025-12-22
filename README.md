@@ -1,12 +1,33 @@
-# SCARA For Test Tube Allotment
-  ![side view](https://github.com/raunakr11/SCARArm/assets/78155138/54ec36e9-693a-4b86-90a6-69ae771c7b29)
-  ![w](https://github.com/raunakr11/SCARArm/assets/78155138/7913a1cc-63a7-4a53-a28a-32cfec6ab41a)
+# SCARA Robot for Laboratory Test Tube Assortment
 
-The creative application of a SCARA (Selective Compliance Assembly Robot Arm) robot platform for pick-and-place tasks is presented in this article. The SCARA robot, which is well- known for its remarkable accuracy and adaptability, shows promise as an automated pick-and- place process solution that could improve productivity, accuracy, and overall quality of automation.
+> **Published in:** [2024 10th International Conference on Control, Automation and Robotics (ICCAR)](https://ieeexplore.ieee.org/document/10569160)
 
-This report begins with a thorough introduction to the pick-and-place process and its inherent challenges. It then moves into an examination of the SCARA robot platform. Its positional control and articulated arm structure are two of its key attributes that are highlighted in this section, along with how these features contribute to its effectiveness in pick-and-place automation.
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/d9933d1c-58b7-4828-8c71-93ded77b918c" width="100%" style="max-width: 800px; display: block; border-radius: 8px;" controls>
+    Your browser does not support the video tag.
+  </video>
+</div>
 
-The report then presents the software, programming dimensions and the hardware of the SCARA robot system. The modelling of the 3D printed components is completed using AutoFusion360 and fabricated to integrate the software and hardware components with it. The hardware is comprised of an Arduino Uno R3, four NEMA 17 stepper motors, CNC shield v3, a servo motor for the end effector and a power supply. The applications are been incorporated as part of PC/laptops that commands the robot for the desired functionality using Forward and Inverse kinematics.
+## Abstract
+This project focuses on the development of a **Selective Compliance Assembly Robot Arm (SCARA)** designed for high-speed, high-precision sorting of laboratory test tubes. By leveraging an open mechanical design and inverse kinematics, the system automates the pick-and-place process, significantly enhancing productivity and positional repeatability in clinical environments.
 
-The report then shows the experimental results, effectively showcasing the prowess of the proposed SCARA robot platform in pick-and-place tasks. The results underscore heightened precision, reduced production time—a testament to the transformative impact of integrating SCARA robots in this application. The robot platform can be used for varied applications for which there will also be additional interfacing provided in future for the end users to train using learn and repeat approach.
 
+
+![PSX_20240310_115310](https://github.com/user-attachments/assets/f1208417-4c56-499f-ba3c-53964c0fcfd0)
+
+
+---
+
+## Key Features
+* **High Repeatability:** Superior positional accuracy optimized for delicate laboratory glassware.
+* **Automated Sorting:** Features a 6-hole wooden assortment platform for organized tube placement.
+* **Custom End-Effector:** Specifically engineered for the dimensions and grip requirements of standard test tubes.
+
+## Results
+Experimental testing demonstrated that the robot swiftly and accurately maneuvers test tubes from the home position to designated slots. The results confirm that the SCARA architecture is highly effective for laboratory automation, providing a transformative impact on accuracy and throughput.
+
+---
+
+
+
+![20240318_115449](https://github.com/user-attachments/assets/983cad6e-c4ea-44c0-b853-5a48a40492ac)
